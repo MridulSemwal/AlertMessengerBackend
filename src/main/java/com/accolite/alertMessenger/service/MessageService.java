@@ -15,4 +15,7 @@ public interface MessageService {
 
     Message update(Message message, int id);
 
+    public List<Message> getMessagesForUser();
+
+    public Message updateDoneByAdmin(Message message);
 }
