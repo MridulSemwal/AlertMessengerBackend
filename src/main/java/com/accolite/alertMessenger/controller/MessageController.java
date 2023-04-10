@@ -12,12 +12,15 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/accolite/alertmessenger")
-@CrossOrigin(origins = "http://localhost:4200/")
 public class MessageController {
 
     @Autowired
     private MessageService messageService;
 
+    @GetMapping("/home")
+    public  String home(){
+        return "this is home";
+    }
     @PostMapping("/saveData")
     public ResponseEntity<Message> save(@RequestBody Message message){
 
@@ -31,13 +34,8 @@ public class MessageController {
     }
 
     @GetMapping("/fetchData")
-    public ResponseEntity<List<Message>> getData(){
-
-        List<Message> messageList = messageService.getData();
-        if(messageList.size() == 0){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.of(Optional.of(messageList));
+    public List<Message> getData(){
+        return messageService.getData();
     }
 
     @DeleteMapping(value="/deleteData/{id}")
