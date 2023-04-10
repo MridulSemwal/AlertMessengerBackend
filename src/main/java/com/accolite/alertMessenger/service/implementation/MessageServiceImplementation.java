@@ -1,6 +1,7 @@
 package com.accolite.alertMessenger.service.implementation;
 
 import com.accolite.alertMessenger.model.Message;
+import com.accolite.alertMessenger.model.User;
 import com.accolite.alertMessenger.repository.MessageRepo;
 import com.accolite.alertMessenger.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,17 @@ public class MessageServiceImplementation implements MessageService {
     @Autowired
     private MessageRepo messageRepo;
 
+    @Autowired
+//    private User user;
+
     public MessageServiceImplementation(MessageRepo messageRepo){
         this.messageRepo = messageRepo;
     }
 
     @Override
     public Message save(Message message) {
+//        List<Message> messageList = user.getMessageList();
+//        messageList.add(message);
         return messageRepo.save(message);
     }
 
@@ -52,5 +58,17 @@ public class MessageServiceImplementation implements MessageService {
                 .orElseGet(()->{
                     return messageRepo.save(newMessage);
                 });
+    }
+
+    @Override
+    public List<Message> getMessagesForUser() {
+        return messageRepo.getMessagesForUser();
+    }
+
+    @Override
+    public Message updateDoneByAdmin(Message message) {
+        Message messageToBeUpdated = message;
+        messageToBeUpdated.setIsPublished(1);
+        return messageRepo.save(messageToBeUpdated);
     }
 }
