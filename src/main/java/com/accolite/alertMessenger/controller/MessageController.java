@@ -12,6 +12,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/accolite/alertmessenger")
+
+//@CrossOrigin(origins = "http://localhost:4200/")
+
 public class MessageController {
 
     @Autowired
@@ -56,6 +59,16 @@ public class MessageController {
       catch (Exception e){
           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
       }
+    }
+
+    @GetMapping(value="/fetchforuser")
+    public List<Message> getMessagesForUser(){
+       return messageService.getMessagesForUser();
+    }
+
+    @PutMapping(value="/publish")
+    public Message updateDoneByAdmin(@RequestBody Message message){
+        return messageService.updateDoneByAdmin(message);
     }
 
 }
