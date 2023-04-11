@@ -3,6 +3,7 @@ package com.accolite.alertMessenger.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,18 +29,20 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/")
                 .permitAll()
-                .antMatchers("/accolite/alertmessenger/saveData")
+                .antMatchers(HttpMethod.GET,"/accolite/alertmessenger/fetchData")
                 .hasAuthority("ADMIN")
-                .antMatchers("/accolite/alertmessenger/fetchData")
+                .antMatchers(HttpMethod.POST,"/accolite/alertmessenger/saveData")
                 .hasAuthority("ADMIN")
-                .antMatchers("/accolite/alertmessenger/deleteData/{id}")
+                .antMatchers(HttpMethod.DELETE,"/accolite/alertmessenger/deleteData/{id}")
                 .hasAuthority("ADMIN")
-                .antMatchers("/accolite/alertmessenger/updateData/{id}")
+                .antMatchers(HttpMethod.PUT,"/accolite/alertmessenger/updateData/{id}")
                 .hasAuthority("ADMIN")
-                .antMatchers("/accolite/alertmessenger/home")
+                .antMatchers(HttpMethod.GET,"/accolite/alertmessenger/home")
                 .hasAuthority("USER")
                 .and()
                 .httpBasic();
