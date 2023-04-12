@@ -1,6 +1,7 @@
 package com.accolite.alertMessenger.service;
 
 import com.accolite.alertMessenger.model.Message;
+import org.hibernate.persister.entity.SingleTableEntityPersister;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,5 +18,7 @@ public interface MessageService {
 
     public List<Message> getMessagesForUser();
 
-    public Message updateDoneByAdmin(Message message);
+    public Message updateDoneByAdmin(Message message, int messageId);
+
+    public Message getDataById(int messageId);
 }

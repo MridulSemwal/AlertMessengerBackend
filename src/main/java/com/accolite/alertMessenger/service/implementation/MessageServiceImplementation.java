@@ -16,17 +16,8 @@ public class MessageServiceImplementation implements MessageService {
     @Autowired
     private MessageRepo messageRepo;
 
-    @Autowired
-//    private User user;
-
-    public MessageServiceImplementation(MessageRepo messageRepo){
-        this.messageRepo = messageRepo;
-    }
-
     @Override
     public Message save(Message message) {
-//        List<Message> messageList = user.getMessageList();
-//        messageList.add(message);
         return messageRepo.save(message);
     }
 
@@ -66,9 +57,14 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
-    public Message updateDoneByAdmin(Message message) {
-        Message messageToBeUpdated = message;
+    public Message updateDoneByAdmin(Message message, int messageId) {
+        Message messageToBeUpdated = messageRepo.findById(messageId).get();
         messageToBeUpdated.setIsPublished(1);
         return messageRepo.save(messageToBeUpdated);
+    }
+
+    @Override
+    public Message getDataById(int messageId) {
+        return messageRepo.findById(messageId).get();
     }
 }
