@@ -8,11 +8,11 @@
 		<version>2.7.10</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>parkingLot</artifactId>
+	<groupId>com.accolite</groupId>
+	<artifactId>alertMessenger</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>parkingLot</name>
-	<description>Main project for Parking Lot</description>
+	<name>alertMessenger</name>
+	<description>Main project for Alert Messenger</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
