@@ -20,11 +20,9 @@ public class MessageController {
 
     //Used to save data
     @PostMapping("/saveData")
-    public ResponseEntity<Message> save(@RequestBody Message message){
-
-        Message msg = null;
+    public ResponseEntity<Message> saveData(@RequestBody Message message){
         try{
-        return new ResponseEntity<Message>(messageService.save(message), HttpStatus.ACCEPTED);
+        return new ResponseEntity<Message>(messageService.saveData(message), HttpStatus.ACCEPTED);
         }catch(Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -37,6 +35,7 @@ public class MessageController {
         return messageService.getData();
     }
 
+
     //Used to get data by id
     @GetMapping("/getbyid/{id}")
     public Message getDataById(@PathVariable("id") int messageId){
@@ -47,14 +46,14 @@ public class MessageController {
     //Used to fetch data for users
     @GetMapping(value="/fetchforuser")
     public List<Message> getMessagesForUser(){
-        return messageService.getMessagesForUser();
+        return messageService.getDataForUser();
     }
 
     //used to delete data
     @DeleteMapping(value="/deleteData/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") int id){
+    public ResponseEntity<Void> deleteData(@PathVariable("id") int id){
         try{
-          messageService.delete(id);
+          messageService.deleteData(id);
           return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -63,9 +62,9 @@ public class MessageController {
 
     //Used to update data
     @PutMapping(value = "/updateData/{id}")
-    public ResponseEntity<Message> updateMessage(@RequestBody Message newMessage, @PathVariable("id") int id){
+    public ResponseEntity<Message> updateData(@RequestBody Message newMessage, @PathVariable("id") int id){
       try{
-          return new ResponseEntity<Message>(messageService.update(newMessage, id),HttpStatus.ACCEPTED);
+          return new ResponseEntity<Message>(messageService.updateData(newMessage, id),HttpStatus.ACCEPTED);
       }
       catch (Exception e){
           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -74,8 +73,8 @@ public class MessageController {
 
     //Used to update the data so that it can be shown to the users
     @PutMapping(value="/publishing/{id}")
-    public Message updateDoneByAdmin(@PathVariable("id") int messageId, @RequestBody Message message){
-        return messageService.updateDoneByAdmin(message, messageId);
+    public Message publishData(@PathVariable("id") int messageId, @RequestBody Message message){
+        return messageService.publishData(message, messageId);
     }
 
 }

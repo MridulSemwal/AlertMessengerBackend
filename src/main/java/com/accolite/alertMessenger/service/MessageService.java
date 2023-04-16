@@ -8,17 +8,17 @@ import java.util.Optional;
 
 public interface MessageService {
 
-    Message save(Message message);
+    Message saveData(Message message);
 
     List<Message> getData();
 
-    void delete(int id);
+    void deleteData(int id);
 
-    Message update(Message message, int id);
+    Message updateData(Message message, int id);
 
-    public List<Message> getMessagesForUser();
+    public List<Message> getDataForUser();
 
-    public Message updateDoneByAdmin(Message message, int messageId);
+    public Message publishData(Message message, int messageId);
 
     public Message getDataById(int messageId);
 }
