@@ -16,9 +16,13 @@ public interface MessageService {
 
     Message updateData(Message message, int id);
 
-    public List<Message> getDataForUser();
-
     public Message publishData(Message message, int messageId);
 
     public Message getDataById(int messageId);
+
+    public Message acknowledgeData(Message message, int messageId);
+
+    public List<Message> getUnreadDataForUser();
+
+    public List<Message> getReadDataForUser();
 }

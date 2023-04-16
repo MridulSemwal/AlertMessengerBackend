@@ -44,11 +44,18 @@ public class MessageController {
     }
 
 
-    //Used to fetch data for users
-    @GetMapping(value="/fetchforuser")
-    public List<Message> getMessagesForUser(){
-        return messageService.getDataForUser();
+    //Used to fetch unread data for users
+    @GetMapping(value="/fetchunreadforuser")
+    public List<Message> getUnreadMessagesForUser(){
+        return messageService.getUnreadDataForUser();
     }
+
+    //Used to fetch read data for users
+    @GetMapping(value="/fetchreadforuser")
+    public List<Message> getReadMessagesForUser(){
+        return messageService.getReadDataForUser();
+    }
+
 
     //used to delete data
     @DeleteMapping(value="/deleteData/{id}")
@@ -76,6 +83,11 @@ public class MessageController {
     @PutMapping(value="/publishing/{id}")
     public Message publishData(@PathVariable("id") int messageId, @RequestBody Message message){
         return messageService.publishData(message, messageId);
+    }
+
+    @PutMapping(value="/acknowledge/{id}")
+    public Message acknowledgeData(@PathVariable("id") int messageId, @RequestBody Message message){
+        return messageService.acknowledgeData(message, messageId);
     }
 
 }

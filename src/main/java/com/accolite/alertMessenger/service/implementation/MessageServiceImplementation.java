@@ -52,11 +52,6 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
-    public List<Message> getDataForUser() {
-        return messageRepo.getMessagesForUser();
-    }
-
-    @Override
     public Message publishData(Message message, int messageId) {
         Message messageToBeUpdated = messageRepo.findById(messageId).get();
         messageToBeUpdated.setIsPublished(1);
@@ -67,4 +62,26 @@ public class MessageServiceImplementation implements MessageService {
     public Message getDataById(int messageId) {
         return messageRepo.findById(messageId).get();
     }
+
+    @Override
+    public Message acknowledgeData(Message message, int messageId) {
+        Message messageToBeUpdated = messageRepo.findById(messageId).get();
+        System.out.println(messageToBeUpdated);
+        messageToBeUpdated.setAcknowledge("YES");
+        System.out.println(message);
+        System.out.println(messageToBeUpdated);
+        return messageRepo.save(messageToBeUpdated);
+    }
+
+    @Override
+    public List<Message> getUnreadDataForUser() {
+        return messageRepo.getUnreadMessagesForUser();
+    }
+
+    @Override
+    public List<Message> getReadDataForUser() {
+        return messageRepo.getReadMessagesForUser();
+    }
+
+
 }
