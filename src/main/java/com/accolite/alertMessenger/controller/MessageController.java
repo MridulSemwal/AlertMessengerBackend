@@ -21,6 +21,7 @@ public class MessageController {
     //Used to save data
     @PostMapping("/saveData")
     public ResponseEntity<Message> saveData(@RequestBody Message message){
+
         try{
         return new ResponseEntity<Message>(messageService.saveData(message), HttpStatus.ACCEPTED);
         }catch(Exception e){

@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping("/accolite/alertmessenger")
 public class UserController {
 
+
     @Autowired
     private UserService userService;
 
