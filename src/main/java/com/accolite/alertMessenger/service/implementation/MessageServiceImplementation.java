@@ -17,7 +17,7 @@ public class MessageServiceImplementation implements MessageService {
     private MessageRepo messageRepo;
 
     @Override
-    public Message save(Message message) {
+    public Message saveData(Message message) {
         return messageRepo.save(message);
     }
 
@@ -27,12 +27,12 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteData(int id) {
         messageRepo.deleteById(id);
     }
 
     @Override
-    public Message update(Message newMessage, int id) {
+    public Message updateData(Message newMessage, int id) {
         return messageRepo.findById(id)
                 .map(message ->{
                       message.setAircraftRegistration(newMessage.getAircraftRegistration());
@@ -52,12 +52,12 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
-    public List<Message> getMessagesForUser() {
+    public List<Message> getDataForUser() {
         return messageRepo.getMessagesForUser();
     }
 
     @Override
-    public Message updateDoneByAdmin(Message message, int messageId) {
+    public Message publishData(Message message, int messageId) {
         Message messageToBeUpdated = messageRepo.findById(messageId).get();
         messageToBeUpdated.setIsPublished(1);
         return messageRepo.save(messageToBeUpdated);
