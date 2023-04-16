@@ -1,4 +1,9 @@
 //package com.accolite.alertMessenger.configuration;
+
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
+
 //
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Bean;
@@ -15,7 +20,10 @@
 //
 //@Configuration
 //@EnableWebSecurity
-//public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+//public class WebSecurityConfiguration {
+
+
+
 //
 //    @Autowired
 //    private UserDetailsService userDetailsService;
