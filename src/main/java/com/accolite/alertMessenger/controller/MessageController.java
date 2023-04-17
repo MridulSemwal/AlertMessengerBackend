@@ -56,6 +56,11 @@ public class MessageController {
         return messageService.getReadDataForUser();
     }
 
+    @GetMapping(value = "/fetchpublished")
+    public List<Message> getPublishedMessage(){
+        return messageService.getPublishedData();
+    }
+
 
     //used to delete data
     @DeleteMapping(value="/deleteData/{id}")
@@ -89,5 +94,4 @@ public class MessageController {
     public Message acknowledgeData(@PathVariable("id") int messageId, @RequestBody Message message){
         return messageService.acknowledgeData(message, messageId);
     }
-
 }

@@ -83,5 +83,10 @@ public class MessageServiceImplementation implements MessageService {
         return messageRepo.getReadMessagesForUser();
     }
 
+    @Override
+    public List<Message> getPublishedData() {
+        return messageRepo.getPublishedData();
+    }
+
 
 }
