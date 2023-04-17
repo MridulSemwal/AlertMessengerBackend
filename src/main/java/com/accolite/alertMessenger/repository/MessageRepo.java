@@ -16,4 +16,7 @@ public interface MessageRepo extends JpaRepository<Message, Integer> {
     @Query(value = "select * from message where is_published = 1 and acknowledge = 'YES'", nativeQuery = true)
     public List<Message> getReadMessagesForUser();
 
+    @Query(value = "select * from message where is_published = 1", nativeQuery = true)
+    public List<Message> getPublishedData();
+
 }

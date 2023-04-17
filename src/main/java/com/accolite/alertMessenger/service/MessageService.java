@@ -25,4 +25,6 @@ public interface MessageService {
     public List<Message> getUnreadDataForUser();
 
     public List<Message> getReadDataForUser();
+
+    public List<Message> getPublishedData();
 }
