@@ -14,15 +14,15 @@ public interface MessageService {
 
     List<Message> getData();
 
-    void deleteData(int id);
+    void deleteData(UUID id);
 
-    Message updateData(Message message, int id);
+    Message updateData(Message message, UUID id);
 
-    public Message publishData(Message message, int messageId) throws MessageNotFoundException;
+    public Message publishData(Message message, UUID messageId) throws MessageNotFoundException;
 
-    public Message getDataById(int messageId) throws MessageNotFoundException;
+    public Message getDataById(UUID messageId) throws MessageNotFoundException;
 
-    public Message acknowledgeData(Message message, int messageId) throws MessageNotFoundException;
+    public Message acknowledgeData(Message message, UUID messageId) throws MessageNotFoundException;
 
     public List<Message> getUnreadDataForUser();
 

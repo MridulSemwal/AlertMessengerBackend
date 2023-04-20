@@ -29,12 +29,12 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
-    public void deleteData(int id) {
+    public void deleteData(UUID id) {
         messageRepo.deleteById(id);
     }
 
     @Override
-    public Message updateData(Message newMessage, int id) {
+    public Message updateData(Message newMessage, UUID id) {
         return messageRepo.findById(id)
                 .map(message ->{
                       message.setAircraftRegistration(newMessage.getAircraftRegistration());
@@ -54,7 +54,7 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
-    public Message publishData(Message message, int messageId) throws MessageNotFoundException {
+    public Message publishData(Message message, UUID messageId) throws MessageNotFoundException {
         if(messageRepo.findById(messageId).isPresent()){
             Message messageToBeUpdated = messageRepo.findById(messageId).get();
             messageToBeUpdated.setIsPublished(1);
@@ -66,7 +66,7 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
-    public Message getDataById(int messageId) throws MessageNotFoundException {
+    public Message getDataById(UUID messageId) throws MessageNotFoundException {
 
         if(messageRepo.findById(messageId).isPresent()){
            return messageRepo.findById(messageId).get();
@@ -76,7 +76,7 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
-    public Message acknowledgeData(Message message, int messageId) throws MessageNotFoundException {
+    public Message acknowledgeData(Message message, UUID messageId) throws MessageNotFoundException {
 
         if(messageRepo.findById(messageId).isPresent()){
             Message messageToBeUpdated = messageRepo.findById(messageId).get();
