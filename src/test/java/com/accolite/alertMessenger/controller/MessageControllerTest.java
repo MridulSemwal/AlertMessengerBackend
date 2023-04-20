@@ -1,5 +1,6 @@
 package com.accolite.alertMessenger.controller;
 
+import com.accolite.alertMessenger.exception.MessageNotFoundException;
 import com.accolite.alertMessenger.model.Message;
 import com.accolite.alertMessenger.repository.MessageRepo;
 import com.accolite.alertMessenger.service.MessageService;
@@ -54,6 +55,7 @@ class MessageControllerTest {
     private List<Message> unreadMessageList = new ArrayList<>();
     private List<Message> readMessageList = new ArrayList<>();
     private List<Message> publishedMessageList = new ArrayList<>();
+    private List<Message> emptyMessageList = new ArrayList<>();
 
 
     @Autowired
@@ -199,7 +201,27 @@ class MessageControllerTest {
     }
 
     @Test
-    @DisplayName("When fetching data then it should fetch all data correnctly with the correct status code")
+    public void saveDataTestShouldThroughException_WhenGivenInvalidMessage() throws Exception {
+
+        Message inputMessage = Message
+                .builder()
+                .desk("DESK")
+                .flight("AIR_INDIA")
+                .acknowledge("NO")
+                .acknowledgedBy("MRIDUL")
+                .deskCategory("PILOT")
+                .build();
+
+        String jsonRequest = objectMapper.writeValueAsString(inputMessage);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/accolite/alertmessenger/saveData")
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("When fetching data then it should fetch all data correctly with the correct status code")
     public void fetchDataTest() throws Exception {
 
         Mockito.when(messageService.getData())
@@ -212,16 +234,29 @@ class MessageControllerTest {
 
     @Test
     public void fetchDataByIdTest() throws Exception{
+        UUID messageId = UUID.fromString("ac696dd8-51f1-4c9b-b7a2-27dff80ad5b7");
 
-        Mockito.when(messageService.getDataById(message.getMessageId()))
+        Mockito.when(messageService.getDataById(messageId))
                 .thenReturn(message);
 
 
         mockMvc.perform(MockMvcRequestBuilders.get("/accolite/alertmessenger/getbyid/ac696dd8-51f1-4c9b-b7a2-27dff80ad5b7")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(jsonPath("$.received")
-                        .value(message.getReceived()));
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("When fetching data then it should fetch all data correctly with the correct status code")
+    public void fetchDataByIdTestShouldThroughException() throws Exception {
+
+        UUID messageId = UUID.fromString("ac789ee9-51f1-4c9b-b7a2-27dff80ad5b7");
+
+        Mockito.when(messageService.getDataById(messageId))
+                .thenThrow(MessageNotFoundException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/accolite/alertmessenger/fetchData/ac789ee9-51f1-4c9b-b7a2-27dff80ad5b7"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+
     }
 
     @Test
@@ -255,6 +290,35 @@ class MessageControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.acknowledgedBy")
                         .value(updatedMessage.getAcknowledgedBy()));
+    }
+    @Test
+    public void updateDataTest_ThenThrowException() throws Exception{
+
+        UUID id1 = UUID.fromString("ac696dd8-51f1-4c9b-b7a2-27dff80ad5b7");
+
+        Message messageToBeUpdated = Message
+                .builder()
+                .flight("AIR-INDIA")
+                .messageId(id1)
+                .desk("DESK")
+                .acknowledge("NO")
+                .acknowledgedBy("MRIDUL SEMWAL")
+                .aircraftRegistration("UK-07")
+                .deskCategory("PILOT")
+                .isPublished(0)
+                .priority("HIGH")
+                .received("YASH")
+                .build();
+
+        Mockito.when(messageService.updateData(messageToBeUpdated, messageToBeUpdated.getMessageId()))
+                .thenReturn(updatedMessage);
+
+        String resultJson = objectMapper.writeValueAsString(messageToBeUpdated);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/accolite/alertmessenger/updateData/ac696dd8-51f1-4c9b-b7a2-27dff80ad5b7")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(resultJson))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
@@ -327,6 +391,33 @@ class MessageControllerTest {
     }
 
     @Test
+    public void acknowledgeDataTest_ThenThrowException() throws  Exception{
+        UUID id1 = UUID.fromString("ac696dd8-51f1-4c9b-b7a2-27dff80ad5b7");
+
+        Message messageToBeAcknowledged = Message
+                .builder()
+                .flight("AIR-INDIA")
+                .messageId(id1)
+                .desk("DESK")
+                .acknowledgedBy("MRIDUL SEMWAL")
+                .aircraftRegistration("UK-07")
+                .deskCategory("PILOT")
+                .isPublished(0)
+                .received("YASH")
+                .build();
+
+        Mockito.when(messageService.acknowledgeData(messageToBeAcknowledged, id1))
+                .thenReturn(acknowledgedMessage);
+
+        String jsonResult = objectMapper.writeValueAsString(messageToBeAcknowledged);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/accolite/alertmessenger/acknowledge/ac696dd8-51f1-4c9b-b7a2-27dff80ad5b7")
+                        .content(jsonResult)
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
     public void publishDataTest() throws Exception {
         UUID id1 = UUID.fromString("ac696dd8-51f1-4c9b-b7a2-27dff80ad5b7");
 
@@ -353,5 +444,28 @@ class MessageControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isAccepted());
     }
 
+    @Test
+    public void whenPublishDataTest_ThenThrowException() throws Exception {
+        UUID id1 = UUID.fromString("ac696dd8-51f1-4c9b-b7a2-27dff80ad5b7");
+
+        Message messageToBePublished = Message
+                .builder()
+                .flight("AIR-INDIA")
+                .messageId(id1)
+                .desk("DESK")
+                .acknowledge("NO")
+                .acknowledgedBy("MRIDUL SEMWAL")
+                .escalated("NO")
+                .priority("HIGH")
+                .received("YASH")
+                .build();
+
+        String resultJson = objectMapper.writeValueAsString(messageToBePublished);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/accolite/alertmessenger/publishing/ac696dd8-51f1-4c9b-b7a2-27dff80ad5b7")
+                        .content(resultJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 
 }

@@ -164,7 +164,6 @@ class MessageServiceTest {
 
     @Test
     public void whenUpdateData_ThenTheDataShouldBeUpdated(){
-
         UUID messageId = UUID.fromString("ac696dd8-51f1-4c9b-b7a2-27dff80ad5b7");
 
         Message messageToBeUpdated = Message
