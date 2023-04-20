@@ -31,12 +31,7 @@ public class MessageController {
     //Used to fetch all data for admin
     @GetMapping("/fetchData")
     public ResponseEntity<List<Message>> getData(){
-        try{
             return new ResponseEntity<List<Message>>(messageService.getData(), HttpStatus.OK);
-        }
-        catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     //Used to get data by id
