@@ -12,14 +12,19 @@ public interface MessageService {
 
     List<Message> getData();
 
+    //ye
     void deleteData(int id);
 
+    //ye
     Message updateData(Message message, int id);
 
+    //Ye
     public Message publishData(Message message, int messageId);
 
+    //Ye
     public Message getDataById(int messageId);
 
+    //Y
     public Message acknowledgeData(Message message, int messageId);
 
     public List<Message> getUnreadDataForUser();

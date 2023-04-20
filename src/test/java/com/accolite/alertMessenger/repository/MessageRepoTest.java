@@ -1,36 +1,88 @@
 package com.accolite.alertMessenger.repository;
 
 import com.accolite.alertMessenger.model.Message;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.Assert;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-@SpringBootTest
+@DataJpaTest(properties = {
+        "spring.test.database.replace=NONE",
+        "spring.datasource.url=jdbc:mysql://localhost:3306/alertmessenger"
+})
 class MessageRepoTest {
-
     @Autowired
     private MessageRepo messageRepo;
+    @BeforeEach
+    void setUp() {
+    }
 
-    //Test to check whether the users are able to see the published messages or not
     @Test
-    void checkIfPublishedMessagesAreShownToUser(){
-        Message message = new Message(10, "UK-07", "INDIGO",
-                "DESK", "CABIN_CREW", "YES", "NO",
-                "MRIDUL", "YASH", "HIGH", 1);
+    void shouldgetUnreadMessagesForUser() {
+        List<Message> list=new ArrayList<>();
+        Message message1=Message.builder().messageId(1234).acknowledge("YES")
+                .acknowledgedBy("CHARU").aircraftRegistration("AIRCRAFT-4").desk("CREW-1").isPublished(1)
+                .build();
+        Message message2=Message.builder().messageId(11).acknowledge("NO")
+                .acknowledgedBy("CHARU").aircraftRegistration("AIRCRAFT-4").desk("CREW-1").isPublished(1)
+                .build();
+        Message message3=Message.builder().messageId(12).acknowledge("NO")
+                .acknowledgedBy("CHARU").aircraftRegistration("AIRCRAFT-4").desk("CREW-1").isPublished(1)
+                .build();
+        list.add(message1);
+        list.add(message2);
+        list.add(message3);
+        messageRepo.saveAll(list);
+        List<Message> list2=messageRepo.getUnreadMessagesForUser();
+        assertEquals(2,list2.size());
 
-        messageRepo.save(message);
+    }
 
-        List<Message> messageList= messageRepo.getMessagesForUser();
+    @Test
+    void shouldgetReadMessagesForUser() {
+        List<Message> list=new ArrayList<>();
+        Message message1=Message.builder().messageId(1).acknowledge("YES")
+                .acknowledgedBy("CHARU").aircraftRegistration("AIRCRAFT-4").desk("CREW-1").isPublished(1)
+                .build();
+        Message message2=Message.builder().messageId(2).acknowledge("YES")
+                .acknowledgedBy("CHARU").aircraftRegistration("AIRCRAFT-4").desk("CREW-1").isPublished(1)
+                .build();
+        Message message3=Message.builder().messageId(3).acknowledge("NO")
+                .acknowledgedBy("CHARU").aircraftRegistration("AIRCRAFT-4").desk("CREW-1").isPublished(1)
+                .build();
+        list.add(message1);
+        list.add(message2);
+        list.add(message3);
+        messageRepo.saveAll(list);
+        List<Message> list2=messageRepo.getReadMessagesForUser();
+        assertEquals(2,list2.size());
+    }
 
-        Boolean expected = messageList.contains(message);
-
-        assertEquals(expected, true);
-
+    @Test
+    void getPublishedData() {
+        List<Message> list=new ArrayList<>();
+        Message message1=Message.builder().messageId(1).acknowledge("YES")
+                .acknowledgedBy("CHARU").aircraftRegistration("AIRCRAFT-4").desk("CREW-1").isPublished(1)
+                .build();
+        Message message2=Message.builder().messageId(2).acknowledge("YES")
+                .acknowledgedBy("CHARU").aircraftRegistration("AIRCRAFT-4").desk("CREW-1").isPublished(1)
+                .build();
+        Message message3=Message.builder().messageId(3).acknowledge("NO")
+                .acknowledgedBy("CHARU").aircraftRegistration("AIRCRAFT-4").desk("CREW-1").isPublished(1)
+                .build();
+        list.add(message1);
+        list.add(message2);
+        list.add(message3);
+        messageRepo.saveAll(list);
+        List<Message> list2=messageRepo.getPublishedData();
+        assertEquals(3,list2.size());
     }
 
 }

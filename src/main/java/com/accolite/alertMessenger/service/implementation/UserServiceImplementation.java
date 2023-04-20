@@ -25,8 +25,6 @@ public class UserServiceImplementation implements UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return  userRepo.save(user);
     }
-
-
     @Override
     public User login(User user) throws Exception {
        User data = userRepo.findByUserId(user.getUserId());
@@ -45,9 +43,6 @@ public class UserServiceImplementation implements UserService {
            throw new Exception("Usr not Found");
        }
     }
-
-
-
     @Override
     public List<User> getUser() {
         return userRepo.findAll();
