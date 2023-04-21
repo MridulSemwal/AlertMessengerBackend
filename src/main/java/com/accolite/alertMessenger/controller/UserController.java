@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,21 +19,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/adduser")
-    public User addUser(@RequestBody User user){
+    @PostMapping("/addUser")
+    public User addUser(@RequestBody @Valid User user){
         return userService.addUser(user);
     }
 
     @PutMapping("/login")
-    public ResponseEntity<User> login(@RequestBody User user){
-        try{
-            return new ResponseEntity<User>(userService.login(user), HttpStatus.ACCEPTED);
-        }
-        catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    public ResponseEntity<User> login(@RequestBody  User user) throws Exception {
+        return new ResponseEntity<User>(userService.login(user), HttpStatus.ACCEPTED);
     }
- //   public User login(@RequestBody User user){ return  userService.login(user); }
+
     @GetMapping("/fetchUser")
     public List<User> getUser(){
         return userService.getUser();
