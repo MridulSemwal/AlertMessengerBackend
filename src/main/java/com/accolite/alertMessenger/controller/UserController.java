@@ -25,15 +25,10 @@ public class UserController {
     }
 
     @PutMapping("/login")
-    public ResponseEntity<User> login(@RequestBody  User user){
-        try{
-            return new ResponseEntity<User>(userService.login(user), HttpStatus.ACCEPTED);
-        }
-        catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    public ResponseEntity<User> login(@RequestBody  User user) throws Exception {
+        return new ResponseEntity<User>(userService.login(user), HttpStatus.ACCEPTED);
     }
- //   public User login(@RequestBody User user){ return  userService.login(user); }
+
     @GetMapping("/fetchUser")
     public List<User> getUser(){
         return userService.getUser();
