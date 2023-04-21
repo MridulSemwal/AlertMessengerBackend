@@ -31,6 +31,7 @@ class MessageServiceTest {
         Message message = Message
                 .builder()
                 .messageId(id1)
+                .flight("INDIGO")
                 .desk("DESK")
                 .acknowledge("NO")
                 .acknowledgedBy("MRIDUL")
@@ -47,6 +48,7 @@ class MessageServiceTest {
                 .builder()
                 .messageId(id2)
                 .desk("DESK")
+                .flight("QATAR-AIRWAYS")
                 .acknowledge("YES")
                 .acknowledgedBy("MRIDUL")
                 .aircraftRegistration("UK-07")
@@ -63,6 +65,7 @@ class MessageServiceTest {
                 .messageId(id3)
                 .desk("DESK")
                 .acknowledge("NO")
+                .flight("AIR-INDIA")
                 .acknowledgedBy("MRIDUL")
                 .aircraftRegistration("UK-07")
                 .deskCategory("PILOT")
@@ -129,6 +132,7 @@ class MessageServiceTest {
         Message message = Message
                 .builder()
                 .messageId(id1)
+                .flight("INDIGO")
                 .desk("DESK")
                 .acknowledge("NO")
                 .acknowledgedBy("MRIDUL")
@@ -139,7 +143,6 @@ class MessageServiceTest {
                 .priority("HIGH")
                 .received("YASH")
                 .build();
-
         Message savedData = messageService.saveData(message);
 
         assertEquals(message, savedData);
@@ -169,9 +172,10 @@ class MessageServiceTest {
         Message messageToBeUpdated = Message
                 .builder()
                 .messageId(messageId)
+                .flight("INDIGO")
                 .desk("DESK")
                 .acknowledge("NO")
-                .acknowledgedBy("MRIDUL SEMWAL")
+                .acknowledgedBy("MRIDUL")
                 .aircraftRegistration("UK-07")
                 .deskCategory("PILOT")
                 .isPublished(1)
@@ -193,6 +197,7 @@ class MessageServiceTest {
         Message messageToBePublished = Message
                 .builder()
                 .messageId(messageId)
+                .flight("INDIGO")
                 .desk("DESK")
                 .acknowledge("NO")
                 .acknowledgedBy("MRIDUL")
@@ -217,6 +222,7 @@ class MessageServiceTest {
         Message messageToBeAcknowledged = Message
                 .builder()
                 .messageId(messageId)
+                .flight("INDIGO")
                 .desk("DESK")
                 .acknowledge("NO")
                 .acknowledgedBy("MRIDUL")
@@ -276,6 +282,7 @@ class MessageServiceTest {
             Message message = Message
                     .builder()
                     .messageId(id1)
+                    .flight("INDIGO")
                     .desk("DESK")
                     .acknowledge("NO")
                     .acknowledgedBy("MRIDUL")
