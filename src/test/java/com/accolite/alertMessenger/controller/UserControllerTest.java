@@ -22,7 +22,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -68,10 +67,10 @@ class UserControllerTest {
                 .build();
 
         String jsonResult = objectMapper.writeValueAsString(inputUser);
-        Mockito.when(userService.addUser(user))
+        Mockito.when(userService.addUser(inputUser))
                 .thenReturn(user);
 
-        mockMvc.perform(post("/accolite/alertmessenger/adduser")
+        mockMvc.perform(post("/accolite/alertmessenger/addUser")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonResult))
                 .andExpect(status().isOk());
@@ -124,8 +123,6 @@ class UserControllerTest {
 
     @Test
     public void whenAddingWrongUser_thenThrowException() throws Exception{
-
-
         user.setPassword("1234");
 
         Mockito.when(userService.addUser(user))
@@ -140,8 +137,6 @@ class UserControllerTest {
                                 "    \"role\":\"ADMIN\"\n" +
                                 "}"))
                         .andExpect(MockMvcResultMatchers.status().isBadRequest());
-
-
     }
 
 }
