@@ -1,5 +1,6 @@
 package com.accolite.alertMessenger.service.implementation;
 
+import com.accolite.alertMessenger.exception.MessageNotFoundException;
 import com.accolite.alertMessenger.model.Message;
 import com.accolite.alertMessenger.model.User;
 import com.accolite.alertMessenger.repository.MessageRepo;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class MessageServiceImplementation implements MessageService {
@@ -27,12 +29,12 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
-    public void deleteData(int id) {
+    public void deleteData(UUID id) {
         messageRepo.deleteById(id);
     }
 
     @Override
-    public Message updateData(Message newMessage, int id) {
+    public Message updateData(Message newMessage, UUID id) {
         return messageRepo.findById(id)
                 .map(message ->{
                       message.setAircraftRegistration(newMessage.getAircraftRegistration());
@@ -52,25 +54,37 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
-    public Message publishData(Message message, int messageId) {
-        Message messageToBeUpdated = messageRepo.findById(messageId).get();
-        messageToBeUpdated.setIsPublished(1);
-        return messageRepo.save(messageToBeUpdated);
+    public Message publishData(Message message, UUID messageId) throws MessageNotFoundException {
+        if(messageRepo.findById(messageId).isPresent()){
+            Message messageToBeUpdated = messageRepo.findById(messageId).get();
+            messageToBeUpdated.setIsPublished(1);
+            return messageRepo.save(messageToBeUpdated);
+        }
+        else throw new MessageNotFoundException("Message cannot be published as no message was found with the id : "
+                + messageId + ". Please provide a valid messageId");
+
     }
 
     @Override
-    public Message getDataById(int messageId) {
-        return messageRepo.findById(messageId).get();
+    public Message getDataById(UUID messageId) throws MessageNotFoundException {
+
+        if(messageRepo.findById(messageId).isPresent()){
+           return messageRepo.findById(messageId).get();
+        }
+        else throw new MessageNotFoundException("No message was found with the id : "
+                + messageId + ". Please give a valid messageId");
     }
 
     @Override
-    public Message acknowledgeData(Message message, int messageId) {
-        Message messageToBeUpdated = messageRepo.findById(messageId).get();
-        System.out.println(messageToBeUpdated);
-        messageToBeUpdated.setAcknowledge("YES");
-        System.out.println(message);
-        System.out.println(messageToBeUpdated);
-        return messageRepo.save(messageToBeUpdated);
+    public Message acknowledgeData(Message message, UUID messageId) throws MessageNotFoundException {
+
+        if(messageRepo.findById(messageId).isPresent()){
+            Message messageToBeUpdated = messageRepo.findById(messageId).get();
+            messageToBeUpdated.setAcknowledge("YES");
+            return messageRepo.save(messageToBeUpdated);
+        }
+        else throw new MessageNotFoundException("Message cannot be acknowledged as no message was found with the id : "
+                + messageId + ". Please give a valid messageId");
     }
 
     @Override

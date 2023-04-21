@@ -1,16 +1,22 @@
 package com.accolite.alertMessenger.repository;
 
 import com.accolite.alertMessenger.model.Message;
+import com.accolite.alertMessenger.service.implementation.MessageServiceImplementation;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest(properties = {
@@ -85,4 +91,9 @@ class MessageRepoTest {
         assertEquals(3,list2.size());
     }
 
+    @Test
+    public void whenPublishedData_thenReturnPublishedData(){
+        List<Message> messageList = messageRepo.getPublishedData();
+        assertEquals(messageList.size(), publishedMessageList.size());
+    }
 }
