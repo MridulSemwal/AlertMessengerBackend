@@ -78,7 +78,7 @@
 			<version>6.0.2</version>
 		</dependency>
 		<dependency>
-			<groupId>net.minidev</groupId>
+	 		<groupId>net.minidev</groupId>
 			<artifactId>json-smart</artifactId>
 			<version>2.3</version>
 			<scope>test</scope>
@@ -89,9 +89,14 @@
 			<version>1.0.2</version>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
 
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>
