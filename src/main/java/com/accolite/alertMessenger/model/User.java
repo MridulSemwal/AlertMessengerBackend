@@ -27,7 +27,7 @@ public class User {
     @NotBlank(message = "User ID Can not be empty or null")
     private String password;
 
-    @NotBlank( message = "Enter valid role as ADMIN or USER only ")
+
     @NotBlank( message = "Enter valid role as ADMIN or USER only ")
     @Pattern(regexp = "^ADMIN|USER$" , message = "Enter valid role as ADMIN or USER only ")
     private String role;

@@ -60,7 +60,7 @@ public class MessageController {
 
     //used to delete data
     @DeleteMapping(value="/deleteData/{id}")
-    public ResponseEntity<Void> deleteData(@PathVariable("id") UUID id){
+    public ResponseEntity<Void> deleteData(@PathVariable("id") UUID id) throws MessageNotFoundException{
         messageService.deleteData(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

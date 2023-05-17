@@ -19,11 +19,11 @@ import java.util.UUID;
 @Builder
 public class Message {
 
-@Id
-@GeneratedValue(generator = "UUID")
-@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-@Column(name = "messageId", updatable = false, nullable = false)
-@Type(type = "org.hibernate.type.UUIDCharType")
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "messageId", updatable = false, nullable = false)
+    @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID messageId;
     @NotBlank(message = "Please enter the value")
     private String aircraftRegistration;
@@ -35,8 +35,6 @@ public class Message {
     private String deskCategory;
     @NotBlank(message = "Please enter the value")
     private String escalated;
-//    @Column(columnDefinition = "varchar(255) default NO")
-//    @ColumnDefault("NO")
     private String acknowledge = "NO";
     @NotBlank(message = "Please enter the value")
     private String acknowledgedBy;
@@ -46,8 +44,6 @@ public class Message {
     private String priority;
     @Min(0)
     @Max(1)
-//    @Column(columnDefinition = "int default 1")
-//    @ColumnDefault("0")
     private int isPublished = 0;
 
 }

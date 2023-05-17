@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MessageServiceTest {
     @MockBean
     private MessageRepo messageRepo;
@@ -159,7 +159,7 @@ class MessageServiceTest {
     }
 
     @Test
-    public void whenCorrectMessageIdGiven_ThenDeleteTheMessage(){
+    public void whenCorrectMessageIdGiven_ThenDeleteTheMessage() throws MessageNotFoundException {
         UUID messageId = UUID.fromString("ac696dd8-51f1-4c9b-b7a2-27dff80ad5b7");
         messageService.deleteData(messageId);
         Mockito.verify(messageRepo).deleteById(messageId);

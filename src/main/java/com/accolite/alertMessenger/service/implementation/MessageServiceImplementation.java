@@ -2,14 +2,12 @@ package com.accolite.alertMessenger.service.implementation;
 
 import com.accolite.alertMessenger.exception.MessageNotFoundException;
 import com.accolite.alertMessenger.model.Message;
-import com.accolite.alertMessenger.model.User;
 import com.accolite.alertMessenger.repository.MessageRepo;
 import com.accolite.alertMessenger.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,8 +27,11 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
-    public void deleteData(UUID id) {
-        messageRepo.deleteById(id);
+    public void deleteData(UUID id) throws MessageNotFoundException{
+        if(messageRepo.findById(id).isPresent())
+            messageRepo.deleteById(id);
+        else  throw new MessageNotFoundException("Message cannot be deleted as no message was found with the id : "
+                + id + ". Please provide a valid messageId");
     }
 
     @Override

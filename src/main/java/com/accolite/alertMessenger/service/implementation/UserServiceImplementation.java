@@ -4,11 +4,15 @@ import com.accolite.alertMessenger.model.User;
 import com.accolite.alertMessenger.repository.UserRepo;
 import com.accolite.alertMessenger.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,6 +51,5 @@ public class UserServiceImplementation implements UserService {
     public List<User> getUser() {
         return userRepo.findAll();
     }
-
 
 }

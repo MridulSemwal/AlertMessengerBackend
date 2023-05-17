@@ -14,7 +14,7 @@ public interface MessageService {
 
     List<Message> getData();
 
-    void deleteData(UUID id);
+    void deleteData(UUID id) throws MessageNotFoundException;
 
     Message updateData(Message message, UUID id);
 
