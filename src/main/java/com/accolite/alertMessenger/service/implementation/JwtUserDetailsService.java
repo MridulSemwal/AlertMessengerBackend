@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 @Service
@@ -32,4 +33,8 @@ public class JwtUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUserId(), user.getPassword(), new ArrayList<>());
     }
 
+    public User save(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        return  userRepo.save(user);
+    }
 }
