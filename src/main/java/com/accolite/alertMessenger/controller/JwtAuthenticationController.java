@@ -1,9 +1,8 @@
 package com.accolite.alertMessenger.controller;
 
-import antlr.BaseAST;
 import com.accolite.alertMessenger.model.JwtRequest;
 import com.accolite.alertMessenger.model.JwtResponse;
-import com.accolite.alertMessenger.model.User;
+import com.accolite.alertMessenger.model.UserDetail;
 import com.accolite.alertMessenger.service.implementation.JwtUserDetailsService;
 import com.accolite.alertMessenger.utility.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,13 +43,13 @@ public class JwtAuthenticationController {
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(token.toString());
 
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> saveUser(@RequestBody User user) throws Exception{
-       return new ResponseEntity<User>(jwtUserDetailsService.save(user), HttpStatus.CREATED);
+    public ResponseEntity<?> saveUser(@RequestBody UserDetail user) throws Exception{
+       return new ResponseEntity<UserDetail>(jwtUserDetailsService.save(user), HttpStatus.CREATED);
     }
 
     private void authenticate(String username, String password) throws Exception{

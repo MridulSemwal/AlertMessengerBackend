@@ -1,6 +1,6 @@
 package com.accolite.alertMessenger.service;
 
-import com.accolite.alertMessenger.model.User;
+import com.accolite.alertMessenger.model.UserDetail;
 import com.accolite.alertMessenger.repository.UserRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,8 +24,8 @@ class UserServiceTest {
     @Autowired
     private UserService userService;
 
-    private User user;
-    private List<User> userList = new ArrayList<>();
+    private UserDetail user;
+    private List<UserDetail> userList = new ArrayList<>();
 
     BCryptPasswordEncoder bCryptPasswordEncoder =
             new BCryptPasswordEncoder();
@@ -33,7 +33,7 @@ class UserServiceTest {
     @BeforeEach
     void setup(){
 
-        user = User.builder().userId("mridul").role("ADMIN")
+        user = UserDetail.builder().userId("mridul").role("ADMIN")
                 .password(bCryptPasswordEncoder.encode("1234")).build();
 
         userList.add(user);
@@ -50,7 +50,7 @@ class UserServiceTest {
     @Test
     public void whenSavingUser_thenUserShouldBeSavedProperly(){
 
-        User user1 = User.builder().userId("mridul").role("ADMIN")
+        UserDetail user1 = UserDetail.builder().userId("mridul").role("ADMIN")
                 .password("1234").build();
 
         assertEquals(userService.addUser(user).getUserId(), user.getUserId());
@@ -60,7 +60,7 @@ class UserServiceTest {
     @Test
     public void whenFetchingUSer_thenAllTheUsersShouldBeFetched(){
 
-        List<User> userList1 = userService.getUser();
+        List<UserDetail> userList1 = userService.getUser();
         assertEquals(userList.size(), userList1.size());
 
     }
@@ -68,10 +68,10 @@ class UserServiceTest {
     @Test
     public void whenUserTryToLogin_thenReturnCorrectRoleOfTheUser() throws Exception {
 
-        User user1 = User.builder().userId("mridul").role("ADMIN")
+        UserDetail user1 = UserDetail.builder().userId("mridul").role("ADMIN")
                 .password("1234").build();
 
-        User resultUser = userService.login(user1);
+        UserDetail resultUser = userService.login(user1);
 
         assertEquals(resultUser.getRole(), "ADMIN");
 
@@ -81,9 +81,9 @@ class UserServiceTest {
     public void whenUserTryToLoginWithWrongCredentials_thenThrowException() throws Exception {
 
         assertThrows(Exception.class, ()->{
-            User user1 = User.builder().userId("mridul").role("ADMIN")
+            UserDetail user1 = UserDetail.builder().userId("mridul").role("ADMIN")
                     .password("124").build();
-            User resultUser = userService.login(user1);
+            UserDetail resultUser = userService.login(user1);
         });
     }
 
@@ -91,7 +91,7 @@ class UserServiceTest {
     public void whenSavingUserIncorrectly_thenThrowException(){
 
         assertThrows(Exception.class, ()->{
-            User user = User.builder().userId("mridul").role("ADMIN")
+            UserDetail user = UserDetail.builder().userId("mridul").role("ADMIN")
                     .build();
             userService.addUser(user);
         });

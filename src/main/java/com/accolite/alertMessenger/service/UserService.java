@@ -1,11 +1,11 @@
 package com.accolite.alertMessenger.service;
 
-import com.accolite.alertMessenger.model.User;
+import com.accolite.alertMessenger.model.UserDetail;
 
 import java.util.List;
 
 public interface UserService {
-    public User addUser(User user);
-    public User login(User user) throws Exception;
-    public List<User> getUser();
+    public UserDetail addUser(UserDetail user);
+    public UserDetail login(UserDetail user) throws Exception;
+    public List<UserDetail> getUser();
 }

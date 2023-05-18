@@ -1,6 +1,6 @@
 package com.accolite.alertMessenger.controller;
 
-import com.accolite.alertMessenger.model.User;
+import com.accolite.alertMessenger.model.UserDetail;
 import com.accolite.alertMessenger.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,12 +9,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.web.client.match.MockRestRequestMatchers;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -35,8 +32,8 @@ class UserControllerTest {
     @MockBean
     private UserService userService;
 
-    private User user;
-    private List<User> userList = new ArrayList<>();
+    private UserDetail user;
+    private List<UserDetail> userList = new ArrayList<>();
 
     @Autowired
     private WebApplicationContext context;
@@ -49,7 +46,7 @@ class UserControllerTest {
 
     @BeforeEach
     void setup(){
-        user = User.builder().userId("mridul")
+        user = UserDetail.builder().userId("mridul")
                 .password(bCryptPasswordEncoder.encode("1234"))
                 .role("ADMIN")
                 .build();
@@ -61,7 +58,7 @@ class UserControllerTest {
 
     @Test
     public void addUserTest() throws Exception{
-        User inputUser = User.builder().userId("mridul")
+        UserDetail inputUser = UserDetail.builder().userId("mridul")
                 .password(bCryptPasswordEncoder.encode("1234"))
                 .role("ADMIN")
                 .build();
@@ -88,7 +85,7 @@ class UserControllerTest {
 
     @Test
     public void userLoginTest() throws Exception{
-        User inputUser = User.builder().userId("mridul")
+        UserDetail inputUser = UserDetail.builder().userId("mridul")
                 .password(bCryptPasswordEncoder.encode("1234"))
                 .role("ADMIN")
                 .build();
@@ -105,7 +102,7 @@ class UserControllerTest {
 
     @Test
     public void userLoginTestForWrongCredentials() throws Exception{
-        User inputUser = User.builder().userId("mridul")
+        UserDetail inputUser = UserDetail.builder().userId("mridul")
                 .password(bCryptPasswordEncoder.encode("1234"))
                 .role("ADMMIN")
                 .build();

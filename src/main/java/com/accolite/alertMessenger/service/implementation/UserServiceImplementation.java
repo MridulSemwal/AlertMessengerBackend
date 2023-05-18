@@ -1,18 +1,12 @@
 package com.accolite.alertMessenger.service.implementation;
 
-import com.accolite.alertMessenger.model.User;
+import com.accolite.alertMessenger.model.UserDetail;
 import com.accolite.alertMessenger.repository.UserRepo;
 import com.accolite.alertMessenger.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.SecureRandom;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,17 +19,17 @@ public class UserServiceImplementation implements UserService {
 
 
     @Override
-    public User addUser(User user) {
+    public UserDetail addUser(UserDetail user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return  userRepo.save(user);
     }
     @Override
-    public User login(User user) throws Exception {
-       User data = userRepo.findByUserId(user.getUserId());
+    public UserDetail login(UserDetail user) throws Exception {
+       UserDetail data = userRepo.findByUserId(user.getUserId());
        if(data!=null){
            if(bCryptPasswordEncoder.matches(user.getPassword(),data.getPassword())){
-               data.setUserId(null);
-               data.setPassword(null);
+//               data.setUserId(null);
+//               data.setPassword(null);
                return data;
            }else{
                System.out.println("Wrong Password");
@@ -48,7 +42,7 @@ public class UserServiceImplementation implements UserService {
        }
     }
     @Override
-    public List<User> getUser() {
+    public List<UserDetail> getUser() {
         return userRepo.findAll();
     }
 

@@ -1,7 +1,6 @@
 package com.accolite.alertMessenger.controller;
 
-import com.accolite.alertMessenger.model.Message;
-import com.accolite.alertMessenger.model.User;
+import com.accolite.alertMessenger.model.UserDetail;
 import com.accolite.alertMessenger.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,17 +19,17 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/addUser")
-    public User addUser(@RequestBody @Valid User user){
+    public UserDetail addUser(@RequestBody @Valid UserDetail user){
         return userService.addUser(user);
     }
 
     @PutMapping("/login")
-    public ResponseEntity<User> login(@RequestBody  User user) throws Exception {
-        return new ResponseEntity<User>(userService.login(user), HttpStatus.ACCEPTED);
+    public ResponseEntity<UserDetail> login(@RequestBody UserDetail user) throws Exception {
+        return new ResponseEntity<UserDetail>(userService.login(user), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/fetchUser")
-    public List<User> getUser(){
+    public List<UserDetail> getUser(){
         return userService.getUser();
     }
 

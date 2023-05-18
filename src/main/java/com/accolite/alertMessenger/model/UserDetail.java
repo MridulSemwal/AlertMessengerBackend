@@ -16,7 +16,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class UserDetail {
 
     @Id
     @NotBlank(message = "User ID Can not be empty or null")
